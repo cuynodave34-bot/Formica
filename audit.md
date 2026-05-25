@@ -8,6 +8,7 @@ May 25, 2026
 
 - Workspace: `C:\Users\Admin\OneDrive\Documents\Formica`
 - Git state: initialized and pushed to `origin/main`.
+- Latest closeout commit at the time of this audit update: `ef3275b Complete Phase 0 and Phase 1 setup`.
 - App scaffold: Expo SDK 54 TypeScript app with Expo Router tabs.
 - Root docs present: `plan.md`, `audit.md`, `AGENTS.md`, `README.md`, and `docs/phase-0-1-closeout.md`.
 - Git remote: `git@github.com:cuynodave34-bot/Formica.git`.
@@ -67,6 +68,18 @@ Required actions:
 - Do not introduce Realtime-dependent app behavior until Realtime has a concrete use case and a passing local verification path.
 
 Severity: Low for Phase 1, Medium before any Realtime feature.
+
+### 5. Low Disk Space Limits Heavy Local Tooling
+
+The Windows drive had low free space during closeout. A local install of heavy CLI packages was avoided after disk pressure, and future-facing tools were added as pinned `npx` scripts instead.
+
+Required actions:
+
+- Prefer the existing pinned scripts before adding heavy dev dependencies.
+- Check free disk space before installing large CLIs or native build tooling.
+- Keep `node_modules` lean unless a tool must be available offline or in CI without `npx`.
+
+Severity: Low if monitored, Medium if future tooling installs are attempted with low disk space.
 
 ## Product and UX Risks
 
@@ -278,19 +291,19 @@ Controls:
 
 ## Verification Matrix
 
-| Area       | Required verification                                         |
-| ---------- | ------------------------------------------------------------- |
-| TypeScript | `npm run typecheck`                                           |
-| Lint       | `npm run lint`                                                |
-| Format     | `npm run format:check`                                        |
-| Unit tests | `npm test -- --runInBand` or a CI-safe Jest command           |
-| UI tests   | React Native Testing Library                                  |
-| E2E        | Maestro or Detox critical flows                               |
-| Database   | Supabase local CLI and SQL tests                              |
-| RLS        | User A versus User B isolation tests                          |
-| Sync       | Duplicate replay, conflict, delete/edit, and retry tests      |
-| Builds     | `npx expo config --type public` and EAS internal build        |
-| Security   | Secret search, log redaction tests, invalid amount/type tests |
+| Area       | Required verification                                                                   |
+| ---------- | --------------------------------------------------------------------------------------- |
+| TypeScript | `npm run typecheck`                                                                     |
+| Lint       | `npm run lint`                                                                          |
+| Format     | `npm run format`                                                                        |
+| Unit tests | `npm test`                                                                              |
+| UI tests   | React Native Testing Library                                                            |
+| E2E        | Maestro or Detox critical flows                                                         |
+| Database   | `npm run supabase:db:lint` plus future SQL tests                                        |
+| RLS        | User A versus User B isolation tests                                                    |
+| Sync       | Duplicate replay, conflict, delete/edit, and retry tests                                |
+| Builds     | `npx expo config --type public`, `npm run eas:version`, and future EAS internal build   |
+| Security   | `npm run audit:moderate`, secret search, log redaction tests, invalid amount/type tests |
 
 ## Initial Acceptance Checklist
 
@@ -305,6 +318,8 @@ Phase 0 and Phase 1 closeout:
 - Theme tokens and shared UI primitives exist.
 - Supabase local migration exists and applies to local Postgres.
 - Docker Desktop is installed for Supabase local development.
+- Pinned `npx` scripts exist for Expo Doctor, EAS CLI version checks, and Supabase CLI commands.
+- Realtime is explicitly excluded from the default local Supabase start command until needed.
 
 Before the first production release:
 

@@ -76,6 +76,35 @@ Formica should be built with:
 
 As of May 25, 2026, Expo SDK 56 is newer than SDK 54. The Formica baseline remains SDK 54 because that is the requested target. Future dependency work must use `npx expo install`, `npx expo install --check`, and official Expo compatibility guidance instead of blindly installing latest npm versions.
 
+## Current Phase 0/1 Baseline
+
+As of May 25, 2026, Phases 0 and 1 are complete and pushed to `origin/main`.
+
+Completed baseline:
+
+- Expo SDK 54 TypeScript app scaffold.
+- Expo Router tab shell for Nest Overview, Chambers, Trails, Mounds, Colony Report, and Settings.
+- Formica theme tokens and shared `Screen` / `Card` primitives.
+- Supabase client wiring through environment variables and SecureStore-backed session storage.
+- Supabase local project files and initial migration.
+- GitHub Actions CI.
+- Codex run action.
+- Expo Doctor clean state with explicit `metro.config.js`.
+- Expo Router peer dependencies installed: `expo-constants` and `expo-linking`.
+- Docker Desktop installed for local Supabase development.
+
+Current verification commands:
+
+```text
+npm run verify
+npm run doctor
+npm run docker:check
+npm run supabase:db:lint
+npm run eas:version
+```
+
+Local Supabase uses `npm run supabase:start`, which runs with Realtime excluded. The full local Realtime stack failed during Windows closeout, and Realtime is intentionally deferred until the app has a concrete Realtime feature.
+
 ## Recommended Project Shape
 
 The first implementation pass should scaffold an Expo TypeScript app and keep route files thin.

@@ -43,6 +43,10 @@ Use these terms consistently. If plain financial wording is needed for safety or
 - Run `npx expo install --check` after dependency changes.
 - Prefer Expo Router for navigation.
 - Keep route files thin. Put components, domain logic, validation, database code, and sync code under `src/`.
+- Phase 0 and Phase 1 are complete as of commit `ef3275b`.
+- See `docs/phase-0-1-closeout.md` before changing the scaffold assumptions.
+- The project has an explicit `metro.config.js` that extends Expo's default Metro config; keep that shape unless there is a concrete bundler requirement.
+- `expo-constants` and `expo-linking` are direct dependencies because Expo Router requires them.
 
 ## Frontend Standards
 
@@ -180,7 +184,7 @@ Use these checks as the expected quality gate once the app is scaffolded:
 ```text
 npm run typecheck
 npm run lint
-npm run format:check
+npm run format
 npm test
 npm run audit:moderate
 npm run verify
@@ -199,6 +203,29 @@ Also add and maintain:
 - Docker Desktop for local Supabase.
 - `npm run supabase:start` for Phase 1 local Supabase because it excludes Realtime.
 - `npm run supabase:start:full` only when intentionally working on Realtime.
+
+Current tool scripts:
+
+```text
+npm run verify
+npm run doctor
+npm run docker:check
+npm run supabase:start
+npm run supabase:start:full
+npm run supabase:status
+npm run supabase:db:start
+npm run supabase:db:lint
+npm run supabase:reset
+npm run eas:version
+```
+
+Tooling notes:
+
+- Prefer these pinned `npx` scripts before adding heavy CLIs to `devDependencies`.
+- Check disk space before adding large native/mobile tooling. The closeout session hit low disk space, so EAS and Supabase CLI are intentionally invoked on demand.
+- Do not paste local Supabase status output into docs or issues if it contains generated local keys.
+- The default Supabase start path excludes Realtime. Do not add Realtime-dependent app behavior until `npm run supabase:start:full` is intentionally diagnosed and passes.
+- Run `npm run doctor` after Expo dependency or Metro changes.
 
 ## Documentation Standards
 
