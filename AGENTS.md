@@ -181,7 +181,9 @@ Use these checks as the expected quality gate once the app is scaffolded:
 npm run typecheck
 npm run lint
 npm run format:check
-npm test -- --runInBand
+npm test
+npm run audit:moderate
+npm run verify
 npx expo install --check
 npx expo config --type public
 ```
@@ -194,6 +196,9 @@ Also add and maintain:
 - GitHub Actions CI.
 - EAS internal builds before production builds.
 - Separate EAS Update channels for development, staging, and production.
+- Docker Desktop for local Supabase.
+- `npm run supabase:start` for Phase 1 local Supabase because it excludes Realtime.
+- `npm run supabase:start:full` only when intentionally working on Realtime.
 
 ## Documentation Standards
 

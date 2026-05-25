@@ -330,6 +330,7 @@ Use separate local, staging, and production environments. Never test risky sync 
 - Create `plan.md`, `audit.md`, and `AGENTS.md`.
 - Record the product language, security model, and implementation standards.
 - Keep secrets out of repo files.
+- Status: complete as of May 25, 2026. See `docs/phase-0-1-closeout.md`.
 
 ### Phase 1: Expo Foundation
 
@@ -338,6 +339,8 @@ Use separate local, staging, and production environments. Never test risky sync 
 - Add theme tokens and shared UI primitives.
 - Add empty route shells for Nest Overview, Chambers, Trails, Mounds, Colony Report, and Settings.
 - Add typecheck, lint, format, and Jest setup.
+- Add Docker/Supabase local diagnostics and a non-Realtime local Supabase start path.
+- Status: complete as of May 25, 2026. See `docs/phase-0-1-closeout.md`.
 
 ### Phase 2: Local-First MVP
 

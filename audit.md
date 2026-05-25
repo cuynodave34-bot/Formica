@@ -7,12 +7,12 @@ May 25, 2026
 ## Current Repository State
 
 - Workspace: `C:\Users\Admin\OneDrive\Documents\Formica`
-- Git state: empty repository with no commits at audit time.
-- App scaffold: not created yet.
-- Root docs planned: `plan.md`, `audit.md`, `AGENTS.md`.
-- Git remote: not configured at audit time.
+- Git state: initialized and pushed to `origin/main`.
+- App scaffold: Expo SDK 54 TypeScript app with Expo Router tabs.
+- Root docs present: `plan.md`, `audit.md`, `AGENTS.md`, `README.md`, and `docs/phase-0-1-closeout.md`.
+- Git remote: `git@github.com:cuynodave34-bot/Formica.git`.
 
-This audit is a planning and readiness audit. It is not a code audit because there is no app code yet.
+This audit is now a Phase 0 and Phase 1 readiness audit. Product money flows are still sample-only and must not be treated as implemented finance behavior.
 
 ## High-Risk Findings
 
@@ -29,18 +29,18 @@ Required actions:
 
 Severity: Critical before production.
 
-### 2. Empty Repo Means Guardrails Must Come First
+### 2. Guardrails Are In Place But Must Stay Enforced
 
-There is no existing TypeScript, lint, database, CI, or test setup. If implementation starts without guardrails, Formica can quickly accumulate inconsistent vocabulary, unsafe money logic, and difficult sync behavior.
+TypeScript, linting, formatting, unit tests, Expo dependency checks, npm audit, CI, and Phase 0/1 file checks are configured.
 
 Required actions:
 
-- Scaffold Expo SDK 54 with TypeScript before feature work.
-- Add typecheck, lint, format, and Jest early.
-- Add database migration discipline before creating Supabase tables.
-- Add `AGENTS.md` as durable implementation policy.
+- Run `npm run verify` before claiming Phase 0/1 remains healthy.
+- Keep `AGENTS.md` as durable implementation policy.
+- Keep database changes migration-based.
+- Keep docs updated when roadmap or risk state changes.
 
-Severity: High for maintainability.
+Severity: Medium if checks stay enforced, High if bypassed.
 
 ### 3. SDK 54 Is Requested But Not Current
 
@@ -55,6 +55,18 @@ Required actions:
 - Re-evaluate SDK upgrade only as a dedicated upgrade project.
 
 Severity: Medium if controlled, High if dependencies drift.
+
+### 4. Local Supabase Realtime Is Excluded In Phase 1
+
+Docker Desktop was installed and local Supabase runs with Realtime excluded. The full local stack failed during self-hosted Realtime initialization, while the database migration path and non-Realtime local stack are usable.
+
+Required actions:
+
+- Use `npm run supabase:start` for Phase 1 work.
+- Use `npm run supabase:start:full` only when intentionally diagnosing Realtime.
+- Do not introduce Realtime-dependent app behavior until Realtime has a concrete use case and a passing local verification path.
+
+Severity: Low for Phase 1, Medium before any Realtime feature.
 
 ## Product and UX Risks
 
@@ -282,12 +294,20 @@ Controls:
 
 ## Initial Acceptance Checklist
 
-Before the first production release:
+Phase 0 and Phase 1 closeout:
 
 - No raw secret keys are committed.
 - App uses Expo SDK 54 intentionally.
 - Node.js 20.19.x is documented for local development and CI.
 - TypeScript is strict enough to catch domain mistakes.
+- Expo Router shell routes exist.
+- Expo Doctor passes with the explicit Expo Metro config and Router peers installed.
+- Theme tokens and shared UI primitives exist.
+- Supabase local migration exists and applies to local Postgres.
+- Docker Desktop is installed for Supabase local development.
+
+Before the first production release:
+
 - All money writes validate on backend.
 - All user-owned Supabase tables have RLS.
 - User A cannot access User B data.
@@ -300,4 +320,4 @@ Before the first production release:
 
 ## Current Audit Conclusion
 
-Formica is ready for documentation-driven scaffolding, not production implementation. The next safe step is to scaffold the Expo SDK 54 TypeScript app, add the base theme and navigation, and set up verification before building money flows.
+Formica has completed the documentation and Expo foundation baseline. The next safe step is Phase 2: implement real SQLite-backed local finance data, replace sample dashboard values, and add focused validation tests before money flows are connected to Supabase.
